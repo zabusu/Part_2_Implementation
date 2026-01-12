@@ -1,4 +1,4 @@
-package hms.ui;
+package hms.GUI;
 
 import hms.data.CsvFileConfig;
 import hms.data.CsvPatientRepository;

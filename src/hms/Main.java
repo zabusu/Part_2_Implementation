@@ -1,7 +1,7 @@
 package hms;
 
 import hms.data.CsvFileConfig;
-import hms.ui.MainFrame;
+import hms.GUI.MainFrame;
 
 import javax.swing.SwingUtilities;
 import java.nio.file.Path;
