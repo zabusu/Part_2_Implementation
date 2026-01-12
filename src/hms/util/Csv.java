@@ -3,14 +3,6 @@ package hms.util;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Minimal CSV helper (RFC4180-ish) that supports:
- * - commas inside quoted fields
- * - escaped quotes inside quoted fields ("" -> ")
- *
- * Assumptions:
- * - No multi-line fields
- */
 public final class Csv {
     private Csv() {}
 
