@@ -34,7 +34,7 @@ public final class CsvFileConfig {
     }
 
     public static CsvFileConfig fromProjectRoot(Path projectRoot) {
-        Path dataDir = projectRoot.resolve("Implementation_2");
+        Path dataDir = projectRoot.resolve("data");
         return new CsvFileConfig(
                 dataDir.resolve("patients.csv"),
                 dataDir.resolve("clinicians.csv"),

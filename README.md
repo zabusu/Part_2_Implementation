@@ -14,7 +14,7 @@ This project implements a simple healthcare management system using:
 
 CSV files are expected in:
 
-`Implementation_2/`
+`data/`
 
 ### How to run (no Maven/Gradle)
 
