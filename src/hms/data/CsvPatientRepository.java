@@ -18,7 +18,7 @@ public final class CsvPatientRepository implements PatientRepository {
 
     @Override
     public List<Patient> findAll() throws IOException {
-        CsvTable table = CsvTables.load(csvPath);
+        CsvTable table = CsvLoader.load(csvPath);
         List<Patient> out = new ArrayList<>();
         for (List<String> row : table.rows()) {
             out.add(map(table, row));
@@ -32,7 +32,7 @@ public final class CsvPatientRepository implements PatientRepository {
         String target = patientId.trim();
         if (target.isEmpty()) return Optional.empty();
 
-        CsvTable table = CsvTables.load(csvPath);
+        CsvTable table = CsvLoader.load(csvPath);
         for (List<String> row : table.rows()) {
             if (target.equals(table.get(row, "patient_id"))) {
                 return Optional.of(map(table, row));
