@@ -24,7 +24,7 @@ public final class MainFrame extends JFrame {
         tabs.addTab("Clinicians", placeholder("Clinicians (coming next)"));
         tabs.addTab("Appointments", new hms.GUI.panel.AppointmentsPanel(ctx.appointmentService));
         tabs.addTab("Prescriptions", new hms.GUI.panel.PrescriptionsPanel(ctx.prescriptionService));
-        tabs.addTab("Referrals", placeholder("Referrals (coming next)"));
+        tabs.addTab("Referrals", new hms.GUI.panel.ReferralsPanel(ctx.referralService, ctx.referralManager));
 
         setLayout(new BorderLayout());
         add(tabs, BorderLayout.CENTER);
