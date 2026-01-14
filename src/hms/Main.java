@@ -1,6 +1,6 @@
 package hms;
 
-import hms.data.CsvFileConfig;
+import hms.app.AppContext;
 import hms.GUI.MainFrame;
 
 import javax.swing.SwingUtilities;
@@ -11,11 +11,16 @@ public final class Main {
 
     public static void main(String[] args) {
         Path projectRoot = Path.of(System.getProperty("user.dir"));
-        CsvFileConfig config = CsvFileConfig.fromProjectRoot(projectRoot);
 
         SwingUtilities.invokeLater(() -> {
-            MainFrame frame = new MainFrame(config);
-            frame.setVisible(true);
+            try {
+                AppContext ctx = AppContext.create(projectRoot);
+                MainFrame frame = new MainFrame(ctx);
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
         });
     }
 }
