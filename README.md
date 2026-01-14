@@ -16,6 +16,15 @@ CSV files are expected in:
 
 `data/`
 
+### Features implemented
+
+- Load and display: **Patients, Clinicians, Appointments, Prescriptions, Referrals**
+- Patients: **Add / Edit / Delete** (persists to `data/patients.csv`)
+- Appointments: **Create / Reschedule / Cancel** (persists to `data/appointments.csv`)
+- Prescriptions: **Create** (appends to `data/prescriptions.csv`)
+- Referrals: **Create** (persists to `data/referrals.csv`) and **Send** via Singleton referral manager
+  - Generates referral text file + audit/EHR logs in `referral_out/`
+
 ### How to run (no Maven/Gradle)
 
 From the project root:
