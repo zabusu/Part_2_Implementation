@@ -1,6 +1,5 @@
 package hms.util;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -21,16 +20,35 @@ public final class IO {
 
     public static void writeAllLines(Path path, List<String> lines) throws IOException {
         ensureParentDir(path);
-        Files.write(path, lines, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(path, lines, StandardCharsets.UTF_8,
+                StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
+    /**
+     * Append a line to a text file.
+     * Ensures the file ends with a newline before appending, so we don't concatenate records.
+     */
     public static void appendLine(Path path, String line) throws IOException {
         ensureParentDir(path);
-        try (BufferedWriter w = Files.newBufferedWriter(path, StandardCharsets.UTF_8,
-                StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
-            w.write(line);
-            w.newLine();
+
+        if (Files.exists(path)) {
+            long size = Files.size(path);
+            if (size > 0) {
+                byte[] bytes = Files.readAllBytes(path);
+                byte last = bytes[bytes.length - 1];
+                if (last != (byte) '\n') {
+                    Files.writeString(path, System.lineSeparator(), StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+                }
+            }
         }
+
+        Files.writeString(
+                path,
+                line + System.lineSeparator(),
+                StandardCharsets.UTF_8,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.APPEND
+        );
     }
 
     public static void ensureDir(Path dir) throws IOException {
@@ -45,4 +63,3 @@ public final class IO {
         }
     }
 }
-
