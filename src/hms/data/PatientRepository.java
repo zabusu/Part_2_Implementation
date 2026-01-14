@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface PatientRepository {
     List<Patient> findAll() throws IOException;
     Optional<Patient> findById(String patientId) throws IOException;
+    void saveAll(List<Patient> patients) throws IOException;
 }
 
