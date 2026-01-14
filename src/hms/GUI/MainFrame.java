@@ -22,7 +22,7 @@ public final class MainFrame extends JFrame {
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Patients", new PatientsPanel(ctx.patientService));
         tabs.addTab("Clinicians", placeholder("Clinicians (coming next)"));
-        tabs.addTab("Appointments", placeholder("Appointments (coming next)"));
+        tabs.addTab("Appointments", new hms.GUI.panel.AppointmentsPanel(ctx.appointmentService));
         tabs.addTab("Prescriptions", placeholder("Prescriptions (coming next)"));
         tabs.addTab("Referrals", placeholder("Referrals (coming next)"));
 
