@@ -41,9 +41,11 @@ public final class PatientsPanel extends JPanel {
         JPanel actions = new JPanel();
         JButton refreshBtn = new JButton("Refresh");
         JButton addBtn = new JButton("Add");
+        JButton editBtn = new JButton("Edit");
         JButton deleteBtn = new JButton("Delete");
         actions.add(refreshBtn);
         actions.add(addBtn);
+        actions.add(editBtn);
         actions.add(deleteBtn);
         top.add(actions, BorderLayout.EAST);
 
@@ -54,6 +56,7 @@ public final class PatientsPanel extends JPanel {
 
         refreshBtn.addActionListener(e -> refresh());
         addBtn.addActionListener(e -> addPatient());
+        editBtn.addActionListener(e -> editSelected());
         deleteBtn.addActionListener(e -> deleteSelected());
 
         SwingUtilities.invokeLater(this::refresh);
@@ -156,6 +159,87 @@ public final class PatientsPanel extends JPanel {
             refresh();
         } catch (Exception ex) {
             SwingDialogs.showError(this, "Failed to delete patient.", ex);
+        }
+    }
+
+    private void editSelected() {
+        int row = table.getSelectedRow();
+        if (row < 0) {
+            SwingDialogs.showInfo(this, "Select a patient row first.");
+            return;
+        }
+        int modelRow = table.convertRowIndexToModel(row);
+        String patientId = String.valueOf(model.getValueAt(modelRow, 0));
+
+        try {
+            Patient existing = null;
+            for (Patient p : patientService.listAll()) {
+                if (patientId.equals(p.patientId())) {
+                    existing = p;
+                    break;
+                }
+            }
+            if (existing == null) {
+                SwingDialogs.showInfo(this, "Patient not found: " + patientId);
+                return;
+            }
+
+            JPanel form = new JPanel(new GridLayout(0, 2, 6, 6));
+            JTextField firstName = new JTextField(existing.firstName());
+            JTextField lastName = new JTextField(existing.lastName());
+            JTextField dob = new JTextField(existing.dateOfBirth() == null ? "" : existing.dateOfBirth().toString());
+            JTextField nhs = new JTextField(existing.nhsNumber());
+            JTextField gender = new JTextField(existing.gender());
+            JTextField phone = new JTextField(existing.phoneNumber());
+            JTextField email = new JTextField(existing.email());
+            JTextField address = new JTextField(existing.address());
+            JTextField postcode = new JTextField(existing.postcode());
+            JTextField ecName = new JTextField(existing.emergencyContactName());
+            JTextField ecPhone = new JTextField(existing.emergencyContactPhone());
+            JTextField gpSurgery = new JTextField(existing.gpSurgeryId());
+
+            form.add(new JLabel("First name")); form.add(firstName);
+            form.add(new JLabel("Last name")); form.add(lastName);
+            form.add(new JLabel("Date of birth (YYYY-MM-DD)")); form.add(dob);
+            form.add(new JLabel("NHS number")); form.add(nhs);
+            form.add(new JLabel("Gender")); form.add(gender);
+            form.add(new JLabel("Phone")); form.add(phone);
+            form.add(new JLabel("Email")); form.add(email);
+            form.add(new JLabel("Address")); form.add(address);
+            form.add(new JLabel("Postcode")); form.add(postcode);
+            form.add(new JLabel("Emergency contact name")); form.add(ecName);
+            form.add(new JLabel("Emergency contact phone")); form.add(ecPhone);
+            form.add(new JLabel("GP surgery id")); form.add(gpSurgery);
+
+            int res = javax.swing.JOptionPane.showConfirmDialog(
+                    this, form, "Edit Patient " + patientId, javax.swing.JOptionPane.OK_CANCEL_OPTION
+            );
+            if (res != javax.swing.JOptionPane.OK_OPTION) return;
+
+            Patient updated = new Patient(
+                    existing.patientId(),
+                    firstName.getText(),
+                    lastName.getText(),
+                    LocalDate.parse(dob.getText().trim()),
+                    nhs.getText(),
+                    gender.getText(),
+                    phone.getText(),
+                    email.getText(),
+                    address.getText(),
+                    postcode.getText(),
+                    ecName.getText(),
+                    ecPhone.getText(),
+                    existing.registrationDate(),
+                    gpSurgery.getText()
+            );
+
+            patientService.update(updated);
+            SwingDialogs.showInfo(this, "Patient updated.");
+            refresh();
+        } catch (ValidationException vex) {
+            SwingDialogs.showError(this, "Validation error.", vex);
+        } catch (Exception ex) {
+            SwingDialogs.showError(this, "Failed to edit patient.", ex);
         }
     }
 }
