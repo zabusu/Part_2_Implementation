@@ -1,6 +1,10 @@
 package hms.GUI;
 
+import hms.GUI.panel.AppointmentsPanel;
+import hms.GUI.panel.CliniciansPanel;
 import hms.GUI.panel.PatientsPanel;
+import hms.GUI.panel.PrescriptionsPanel;
+import hms.GUI.panel.ReferralsPanel;
 import hms.app.AppContext;
 
 import javax.swing.JFrame;
@@ -21,17 +25,13 @@ public final class MainFrame extends JFrame {
 
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Patients", new PatientsPanel(ctx.patientService));
-        tabs.addTab("Clinicians", placeholder("Clinicians (coming next)"));
-        tabs.addTab("Appointments", new hms.GUI.panel.AppointmentsPanel(ctx.appointmentService));
-        tabs.addTab("Prescriptions", new hms.GUI.panel.PrescriptionsPanel(ctx.prescriptionService));
-        tabs.addTab("Referrals", new hms.GUI.panel.ReferralsPanel(ctx.referralService, ctx.referralManager));
+        tabs.addTab("Clinicians", new CliniciansPanel(ctx.referenceDataRepository));
+        tabs.addTab("Appointments", new AppointmentsPanel(ctx.appointmentService));
+        tabs.addTab("Prescriptions", new PrescriptionsPanel(ctx.prescriptionService));
+        tabs.addTab("Referrals", new ReferralsPanel(ctx.referralService, ctx.referralManager));
 
         setLayout(new BorderLayout());
         add(tabs, BorderLayout.CENTER);
         add(footer, BorderLayout.SOUTH);
-    }
-
-    private static JLabel placeholder(String text) {
-        return new JLabel(text, SwingConstants.CENTER);
     }
 }
