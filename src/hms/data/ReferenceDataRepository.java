@@ -8,10 +8,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Read-only access to reference datasets (clinicians, facilities, staff).
- * These CSVs typically serve as lookup tables rather than frequently-edited records.
- */
 public interface ReferenceDataRepository {
     List<Clinician> clinicians() throws IOException;
     Optional<Clinician> clinicianById(String clinicianId) throws IOException;

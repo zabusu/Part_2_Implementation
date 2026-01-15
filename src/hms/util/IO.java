@@ -24,10 +24,6 @@ public final class IO {
                 StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
-    /**
-     * Append a line to a text file.
-     * Ensures the file ends with a newline before appending, so we don't concatenate records.
-     */
     public static void appendLine(Path path, String line) throws IOException {
         ensureParentDir(path);
 

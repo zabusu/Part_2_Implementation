@@ -158,7 +158,6 @@ public final class ReferralsPanel extends JPanel {
         String referralId = String.valueOf(model.getValueAt(modelRow, 0));
 
         try {
-            // Ensure we process the selected item (avoid older queued items)
             referralManager.clearQueue();
             boolean queued = referralManager.enqueue(referralId);
             if (!queued) {

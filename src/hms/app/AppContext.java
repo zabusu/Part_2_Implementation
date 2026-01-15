@@ -6,12 +6,9 @@ import hms.service.*;
 import java.io.IOException;
 import java.nio.file.Path;
 
-/**
- * Simple dependency container (manual DI) that wires the 3 tiers together:
- * - Data: CSV repositories
- * - Business: services + ReferralManager Singleton
- * - GUI: views/controllers consume this context
- */
+
+ //Simple dependency container  that wires the 3 tiers together
+ 
 public final class AppContext {
     public final CsvFileConfig config;
 

@@ -7,10 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Header-aware CSV snapshot (no multi-line fields).
- * Stores the header row and data rows as raw strings.
- */
+
 public final class CsvTable {
     private final List<String> header;
     private final Map<String, Integer> indexByName;
