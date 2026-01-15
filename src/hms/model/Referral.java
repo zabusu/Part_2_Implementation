@@ -15,7 +15,7 @@ public final class Referral {
     private final String clinicalSummary;
     private final String requestedInvestigations;
     private final String status;
-    private final String appointmentId; // may be empty
+    private final String appointmentId;
     private final String notes;
     private final LocalDate createdDate;
     private final LocalDate lastUpdated;

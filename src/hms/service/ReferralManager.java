@@ -22,16 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- * Referral management Singleton.
- *
- * Responsibilities (per coursework):
- * - single shared instance to coordinate referral processing
- * - queue referrals to be processed
- * - generate email-style text output (no real email)
- * - write EHR update log entries
- * - maintain audit trail + prevent duplicate processing
- */
 public final class ReferralManager {
     private static volatile ReferralManager instance;
 
@@ -84,9 +74,6 @@ public final class ReferralManager {
         return instance;
     }
 
-    /**
-     * Get the singleton instance (must call {@link #init} first).
-     */
     public static ReferralManager getInstance() {
         ReferralManager inst = instance;
         if (inst == null) {
@@ -95,11 +82,6 @@ public final class ReferralManager {
         return inst;
     }
 
-    /**
-     * Enqueue by referral ID. Duplicate prevention:
-     * - If the referral was already processed (audit says SENT), it will NOT be queued again.
-     * - If it is already in the queue, it will NOT be added again.
-     */
     public synchronized boolean enqueue(String referralId) throws IOException {
         if (referralId == null || referralId.trim().isEmpty()) return false;
         String id = referralId.trim();
@@ -124,10 +106,6 @@ public final class ReferralManager {
         return true;
     }
 
-    /**
-     * Process the next referral in the queue (if any).
-     * Generates email text file + EHR update log + audit trail entry.
-     */
     public synchronized Optional<String> processNext() throws IOException {
         String id = referralQueue.pollFirst();
         if (id == null) return Optional.empty();
